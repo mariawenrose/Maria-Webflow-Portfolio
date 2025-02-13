@@ -599,12 +599,17 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _groupCMSItemJs = require("./webflow/functionality/groupCMSItem.js");
 var _groupCMSItemJsDefault = parcelHelpers.interopDefault(_groupCMSItemJs);
-var _appCss = require("./webflow/app.css");
 const parceled = true;
+//import './styles/app.css'
 const onReady = ()=>{
+    // Re-run when the <select> element changes, with a slight delay
+    document.querySelector("select").addEventListener("change", ()=>{
+        setTimeout((0, _groupCMSItemJsDefault.default), 50); // Delay ensures items are updated first
+    });
+};
+const onLoading = ()=>{
     (0, _groupCMSItemJsDefault.default)();
 };
-const onLoading = ()=>{};
 if (document.readyState !== 'loading') {
     onLoading();
     onReady();
@@ -615,7 +620,7 @@ if (document.readyState !== 'loading') {
     document.addEventListener('DOMContentLoaded', onLoading);
 }
 
-},{"./webflow/functionality/groupCMSItem.js":"imRly","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./webflow/app.css":"gv2mU"}],"imRly":[function(require,module,exports,__globalThis) {
+},{"./webflow/functionality/groupCMSItem.js":"imRly","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"imRly":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 const groupCMSItem = ()=>{
@@ -630,7 +635,7 @@ const groupCMSItem = ()=>{
         }
     });
     groups.forEach((items)=>{
-        if (items.length > 0) items[items.length - 1].style.marginBottom = "1.25rem";
+        if (items.length > 0) items[items.length - 1].style.marginBottom = "1.5rem";
     });
 };
 exports.default = groupCMSItem;
@@ -665,6 +670,6 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"gv2mU":[function() {},{}]},["jQqog","igcvL"], "igcvL", "parcelRequire94c2")
+},{}]},["jQqog","igcvL"], "igcvL", "parcelRequire94c2")
 
 //# sourceMappingURL=app.js.map

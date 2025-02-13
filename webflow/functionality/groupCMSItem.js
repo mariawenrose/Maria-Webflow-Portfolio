@@ -1,5 +1,5 @@
-const groupCMSItem = () =>{
-//group the CMS portfolio items with the same industry value, add a bottom margin to the last one in each group - Maria special design layout request
+const groupCMSItem = () => {
+    //group the CMS portfolio items with the same industry value, add a bottom margin to the last one in each group - Maria special design layout request
     const workItems = document.querySelectorAll(".work-item");
     const groups = new Map();
 
@@ -15,9 +15,10 @@ const groupCMSItem = () =>{
 
     groups.forEach(items => {
         if (items.length > 0) {
-            items[items.length - 1].style.marginBottom = "1.25rem";
+            items[items.length - 1].style.marginBottom = "1.5rem";
         }
     });
+
 }
 
 export default groupCMSItem;

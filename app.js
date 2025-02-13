@@ -1,13 +1,19 @@
 const parceled = true
 
 import groupCMSItem from './webflow/functionality/groupCMSItem.js'
-import './webflow/app.css'
+//import './styles/app.css'
+
 
 const onReady = () => {
 
-    groupCMSItem()
+    // Re-run when the <select> element changes, with a slight delay
+    document.querySelector("select").addEventListener("change", () => {
+        setTimeout(groupCMSItem, 50); // Delay ensures items are updated first
+    });
+
 }
 const onLoading = () => {
+    groupCMSItem()
 
 
 }

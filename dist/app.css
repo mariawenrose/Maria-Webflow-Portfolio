@@ -1,15 +1,14 @@
 ::-webkit-scrollbar {
-  width: .6rem;
+  width: .2vw;
   padding: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0f0f0c;
+  background: none;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #9a9376;
-  border-radius: 100vw;
+  background: #bbffb8;
 }
 
 ::selection {
