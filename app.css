@@ -1,0 +1,108 @@
+/** custom scrollbar**/
+::-webkit-scrollbar {
+    width: 0.6rem;
+    padding: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0f0f0c;
+    /* Sets the background to transparent, change to a Hex or RGB value if you would like */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #9a9376;
+    border-radius: 100vw;
+}
+
+/* custom scrollbar for contact popup */
+.popup-parent::-webkit-scrollbar {
+    width: 0.3rem;
+}
+
+.popup-parent::-webkit-scrollbar-track {
+    background: #FCF6E1;
+}
+
+.popup-parent::-webkit-scrollbar-thumb {
+    background: rgba(154, 147, 118, 0.35);
+    border-radius: 100vw;
+}
+
+/* Firefox scrollbar styling */
+.popup-parent {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(154, 147, 118, 0.35) #FCF6E1;
+}
+
+/** custom selection colour**/
+::selection {
+    background: #f0c464;
+    /* WebKit/Blink Browsers */
+    color: #2f3720;
+}
+
+::-moz-selection {
+    background: #f0c464;
+    /* Gecko Browsers */
+}
+
+/*ensure placeholder text disappea when clicks on the form field*/
+
+input:focus::placeholder {
+    color: transparent;
+}
+
+textarea:focus::placeholder {
+    color: transparent;
+}
+
+/*ensure animated letters can transform**/
+.h1 span {
+    display: inline-block;
+}
+
+/*ensure animated letters can preserve spaces**/
+
+.h1 span.space {
+    width: 0.1ch;
+    /* Adjust to control space width */
+}
+
+/**active form tab style**/
+.form-tab.active .tab-dot {
+    opacity: 1;
+}
+
+.form-tab.active .tab-title-wrap {
+    padding-left: 1.6rem;
+}
+
+/**active cms article tab style on hommepage**/
+.tab-cms-item.active .article-dot {
+    opacity: 1;
+}
+
+.tab-cms-item.active .blur-wrap {
+    opacity: 1;
+}
+
+.tab-cms-item.active .article-img {
+    transform: scale(1);
+    opacity: 1;
+    margin-top: 0vw;
+}
+
+.tab-cms-item.active .article-title-wrap {
+    padding-left: 1.6rem;
+    -webkit-text-stroke-width: 1px;
+}
+
+.tab-cms-item.active {
+    z-index: 1;
+}
+
+/** form field colour**/
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+    transition: background-color 0s 600000s, color 0s 600000s !important;
+}

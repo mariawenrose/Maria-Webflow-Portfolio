@@ -599,6 +599,7 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _groupCMSItemJs = require("./webflow/functionality/groupCMSItem.js");
 var _groupCMSItemJsDefault = parcelHelpers.interopDefault(_groupCMSItemJs);
+var _appCss = require("./app.css");
 const parceled = true;
 const onReady = ()=>{
     (0, _groupCMSItemJsDefault.default)();
@@ -614,7 +615,7 @@ if (document.readyState !== 'loading') {
     document.addEventListener('DOMContentLoaded', onLoading);
 }
 
-},{"./webflow/functionality/groupCMSItem.js":"imRly","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"imRly":[function(require,module,exports,__globalThis) {
+},{"./webflow/functionality/groupCMSItem.js":"imRly","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./app.css":"4slL4"}],"imRly":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 const groupCMSItem = ()=>{
@@ -664,6 +665,6 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}]},["jQqog","igcvL"], "igcvL", "parcelRequire94c2")
+},{}],"4slL4":[function() {},{}]},["jQqog","igcvL"], "igcvL", "parcelRequire94c2")
 
 //# sourceMappingURL=app.js.map

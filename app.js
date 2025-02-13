@@ -1,6 +1,8 @@
-import groupCMSItem from './webflow/functionality/groupCMSItem.js'
-
 const parceled = true
+
+import groupCMSItem from './webflow/functionality/groupCMSItem.js'
+import './app.css'
+
 const onReady = () => {
 
     groupCMSItem()
