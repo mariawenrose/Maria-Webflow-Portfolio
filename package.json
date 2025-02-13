@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/mariawenrose/Maria-Webflow-Portfolio#readme",
   "dependencies": {
+    "gsap": "^3.12.7",
     "parcel": "^2.13.3"
   }
 }
