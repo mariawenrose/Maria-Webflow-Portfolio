@@ -596,8 +596,73 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 }
 
 },{}],"igcvL":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+var _groupCMSItemJs = require("./webflow/functionality/groupCMSItem.js");
+var _groupCMSItemJsDefault = parcelHelpers.interopDefault(_groupCMSItemJs);
 const parceled = true;
-alert('Hello World');
+const onReady = ()=>{
+    (0, _groupCMSItemJsDefault.default)();
+};
+const onLoading = ()=>{};
+if (document.readyState !== 'loading') {
+    onLoading();
+    onReady();
+    console.log('readystate');
+} else {
+    console.log('load');
+    window.addEventListener('load', onReady);
+    document.addEventListener('DOMContentLoaded', onLoading);
+}
+
+},{"./webflow/functionality/groupCMSItem.js":"imRly","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"imRly":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+const groupCMSItem = ()=>{
+    //group the CMS portfolio items with the same industry value, add a bottom margin to the last one in each group - Maria special design layout request
+    const workItems = document.querySelectorAll(".work-item");
+    const groups = new Map();
+    workItems.forEach((item)=>{
+        const industry = item.querySelector("[data-industry]")?.dataset.industry;
+        if (industry) {
+            if (!groups.has(industry)) groups.set(industry, []);
+            groups.get(industry).push(item);
+        }
+    });
+    groups.forEach((items)=>{
+        if (items.length > 0) items[items.length - 1].style.marginBottom = "1.25rem";
+    });
+};
+exports.default = groupCMSItem;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports,__globalThis) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, '__esModule', {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === 'default' || key === '__esModule' || Object.prototype.hasOwnProperty.call(dest, key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
 
 },{}]},["jQqog","igcvL"], "igcvL", "parcelRequire94c2")
 
