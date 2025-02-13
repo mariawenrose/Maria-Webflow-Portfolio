@@ -1,0 +1,36 @@
+/** custom scrollbar**/
+::-webkit-scrollbar {
+    width: 0.6rem;
+    padding: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0f0f0c;
+    /* Sets the background to transparent, change to a Hex or RGB value if you would like */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #9a9376;
+    border-radius: 100vw;
+}
+
+
+
+/** custom selection colour**/
+::selection {
+    background: #D9FF4D;
+    /* WebKit/Blink Browsers */
+    color: #2f3720;
+}
+
+::-moz-selection {
+    background: #D9FF4D;
+    /* Gecko Browsers */
+}
+
+
+/** form field colour**/
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+    transition: background-color 0s 600000s, color 0s 600000s !important;
+}

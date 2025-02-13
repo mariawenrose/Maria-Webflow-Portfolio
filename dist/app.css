@@ -12,70 +12,13 @@
   border-radius: 100vw;
 }
 
-.popup-parent::-webkit-scrollbar {
-  width: .3rem;
-}
-
-.popup-parent::-webkit-scrollbar-track {
-  background: #fcf6e1;
-}
-
-.popup-parent::-webkit-scrollbar-thumb {
-  background: #9a937659;
-  border-radius: 100vw;
-}
-
-.popup-parent {
-  scrollbar-width: thin;
-  scrollbar-color: #9a937659 #fcf6e1;
-}
-
 ::selection {
   color: #2f3720;
-  background: #f0c464;
+  background: #d9ff4d;
 }
 
 ::-moz-selection {
-  background: #f0c464;
-}
-
-input:focus::placeholder, textarea:focus::placeholder {
-  color: #0000;
-}
-
-.h1 span {
-  display: inline-block;
-}
-
-.h1 span.space {
-  width: .1ch;
-}
-
-.form-tab.active .tab-dot {
-  opacity: 1;
-}
-
-.form-tab.active .tab-title-wrap {
-  padding-left: 1.6rem;
-}
-
-.tab-cms-item.active .article-dot, .tab-cms-item.active .blur-wrap {
-  opacity: 1;
-}
-
-.tab-cms-item.active .article-img {
-  opacity: 1;
-  margin-top: 0;
-  transform: scale(1);
-}
-
-.tab-cms-item.active .article-title-wrap {
-  -webkit-text-stroke-width: 1px;
-  padding-left: 1.6rem;
-}
-
-.tab-cms-item.active {
-  z-index: 1;
+  background: #d9ff4d;
 }
 
 input:-webkit-autofill {
