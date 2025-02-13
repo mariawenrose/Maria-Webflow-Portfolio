@@ -1,36 +1,47 @@
 import gsap from "gsap";
 
 const textHover = () => {
-  gsap.matchMedia().add("(min-width: 992px)", () => {
-    $(".text-hover").each(function () {
-      let text = $(this).text().trim();
-      let wrappedText = text
-        .split("")
-        .map(char => `<span class="char">${char}</span>`)
-        .join("");
-      $(this).html(`<span class="char-split">${wrappedText}</span>`);
-    });
+  document.querySelectorAll(".text-hover").forEach((element) => {
+    const text = element.textContent;
+    element.innerHTML = text
+      .split("")
+      .map((char) => `<span class="char">${char}</span>`)
+      .join("");
+  });
 
-    $(".text-hover").hover(
-      function () {
-        let chars = $(this).find(".char-split .char");
-        gsap.set(chars, { opacity: 0.5 }); // Set initial state
-        gsap.fromTo(
-          chars,
-          { opacity: 0.35 },
-          {
-            opacity: 1,
-            duration: 0.25,
-            stagger: { each: 0.1, from: "random" },
-            ease: "power1.out",
+  gsap.matchMedia().add("(min-width: 992px)", () => {
+    document.querySelectorAll(".text-hover").forEach((element) => {
+      const chars = element.querySelectorAll(".char");
+      const originalChars = Array.from(chars).map((char) => char.textContent);
+
+      element.addEventListener("mouseenter", () => {
+        let cycles = 2; // Increase cycles for a smoother effect
+        const interval = setInterval(() => {
+          chars.forEach((char, index) => {
+            gsap.to(char, {
+              duration: 0.8, // Slower animation duration
+              textContent: "abcdefghijklmnopqrstuvwxyz".charAt(
+                Math.floor(Math.random() * 26)
+              ),
+              ease: "power1.in",
+              delay: index * 0.05 // Increased stagger delay
+            });
+          });
+          cycles--;
+          if (cycles <= 0) {
+            clearInterval(interval); // Stop after 3 cycles
+            chars.forEach((char, index) => {
+              gsap.to(char, {
+                duration: 0.8, // Slower transition back
+                textContent: originalChars[index], // Restore original text
+                ease: "power2.in",
+                delay: index * 0.05
+              });
+            });
           }
-        );
-      },
-      function () {
-        let chars = $(this).find(".char-split .char");
-        gsap.to(chars, { opacity: 1, duration: 0.3 });
-      }
-    );
+        }, 80); // Slower interval
+      });
+    });
   });
 };
 
