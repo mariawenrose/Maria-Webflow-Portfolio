@@ -603,6 +603,8 @@ var _blurbUnderlineJs = require("./webflow/functionality/blurbUnderline.js");
 var _blurbUnderlineJsDefault = parcelHelpers.interopDefault(_blurbUnderlineJs);
 var _pageTransitionJs = require("./webflow/functionality/pageTransition.js");
 var _pageTransitionJsDefault = parcelHelpers.interopDefault(_pageTransitionJs);
+var _disclaimerChangeJs = require("./webflow/functionality/disclaimerChange.js");
+var _disclaimerChangeJsDefault = parcelHelpers.interopDefault(_disclaimerChangeJs);
 var _preloaderJs = require("./webflow/animation/preloader.js");
 var _preloaderJsDefault = parcelHelpers.interopDefault(_preloaderJs);
 var _textHoverJs = require("./webflow/animation/textHover.js");
@@ -612,6 +614,7 @@ const onReady = ()=>{
     (0, _textHoverJsDefault.default)();
     (0, _blurbUnderlineJsDefault.default)();
     (0, _pageTransitionJsDefault.default)();
+    (0, _disclaimerChangeJsDefault.default)();
     // Check if .filter-select exists before adding the event listener
     const filterSelect = document.querySelector(".filter-select");
     if (filterSelect) filterSelect.addEventListener("change", ()=>{
@@ -634,7 +637,7 @@ if (document.readyState !== 'loading') {
     document.addEventListener('DOMContentLoaded', onLoading);
 }
 
-},{"./webflow/functionality/groupCMSItem.js":"imRly","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./webflow/animation/textHover.js":"5iCea","./webflow/functionality/blurbUnderline.js":"4xNh1","./webflow/functionality/pageTransition.js":"4nbYs","./webflow/animation/preloader.js":"e8Iwd"}],"imRly":[function(require,module,exports,__globalThis) {
+},{"./webflow/functionality/groupCMSItem.js":"imRly","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./webflow/animation/textHover.js":"5iCea","./webflow/functionality/blurbUnderline.js":"4xNh1","./webflow/functionality/pageTransition.js":"4nbYs","./webflow/animation/preloader.js":"e8Iwd","./webflow/functionality/disclaimerChange.js":"lfbeZ"}],"imRly":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 const groupCMSItem = ()=>{
@@ -4899,6 +4902,29 @@ const loader = ()=>{
 };
 exports.default = loader;
 
-},{"gsap":"fPSuC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["jQqog","igcvL"], "igcvL", "parcelRequire94c2")
+},{"gsap":"fPSuC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lfbeZ":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+const disclaimerChange = ()=>{
+    // Get references to the select element and the disclaimer text
+    const filterSelect = document.querySelector('.filter-select');
+    const disclaimer = document.querySelector('.disclaimer');
+    // Check if the elements exist
+    if (!filterSelect || !disclaimer) {
+        console.error('Required elements not found!');
+        return;
+    }
+    // Add an event listener to the select element
+    filterSelect.addEventListener('change', function() {
+        // Check if the selected option's value is "Business Consulting"
+        if (this.value === 'Business Consulting') // Change the opacity of the disclaimer to 0
+        disclaimer.style.opacity = '0';
+        else // Change the opacity of the disclaimer back to 1
+        disclaimer.style.opacity = '1';
+    });
+};
+exports.default = disclaimerChange;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["jQqog","igcvL"], "igcvL", "parcelRequire94c2")
 
 //# sourceMappingURL=app.js.map

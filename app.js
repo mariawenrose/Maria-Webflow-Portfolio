@@ -3,6 +3,8 @@ const parceled = true;
 import groupCMSItem from './webflow/functionality/groupCMSItem.js';
 import blurbUnderline from './webflow/functionality/blurbUnderline.js';
 import pageTransition from './webflow/functionality/pageTransition.js';
+import disclaimerChange from './webflow/functionality/disclaimerChange.js';
+
 
 import loader from './webflow/animation/preloader.js';
 import textHover from './webflow/animation/textHover.js';
@@ -11,6 +13,7 @@ const onReady = () => {
     textHover()
     blurbUnderline()
     pageTransition()
+    disclaimerChange()
     // Check if .filter-select exists before adding the event listener
     const filterSelect = document.querySelector(".filter-select");
     if (filterSelect) {
