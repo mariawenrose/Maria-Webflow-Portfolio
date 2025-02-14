@@ -632,9 +632,19 @@ if (document.readyState !== 'loading') {
     onReady();
     console.log('readystate');
 } else {
-    console.log('load');
+    console.log('WELCOME');
     window.addEventListener('load', onReady);
     document.addEventListener('DOMContentLoaded', onLoading);
+    console.log(`
+        _   _                                       ____                            _      _              
+        /  /|                   ,                   /    )                          |  |  /               
+    ---/| /-|-----__----)__----------__------------/___ /-----__----__-----__-------|-/|-/------__-----__-
+      / |/  |   /   )  /   )  /    /   )          /    |    /   )  (\`  /___)      |/ |/     /___)  /   )
+    _/__/___|__(___(__/______/____(___(__________/_____|___(___/__(__)__(___ _______/__|_____(___ __/___/_
+
+   maria@ultravioletventure.studio   
+
+`);
 }
 
 },{"./webflow/functionality/groupCMSItem.js":"imRly","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./webflow/animation/textHover.js":"5iCea","./webflow/functionality/blurbUnderline.js":"4xNh1","./webflow/functionality/pageTransition.js":"4nbYs","./webflow/animation/preloader.js":"e8Iwd","./webflow/functionality/disclaimerChange.js":"lfbeZ"}],"imRly":[function(require,module,exports,__globalThis) {
@@ -4908,12 +4918,9 @@ parcelHelpers.defineInteropFlag(exports);
 const disclaimerChange = ()=>{
     // Get references to the select element and the disclaimer text
     const filterSelect = document.querySelector('.filter-select');
-    const disclaimer = document.querySelector('.disclaimer');
-    // Check if the elements exist
-    if (!filterSelect || !disclaimer) {
-        console.error('Required elements not found!');
-        return;
-    }
+    const disclaimer = document.querySelector('.dislaimer-text-wrap');
+    // If either element is not found, do nothing and exit silently
+    if (!filterSelect || !disclaimer) return;
     // Add an event listener to the select element
     filterSelect.addEventListener('change', function() {
         // Check if the selected option's value is "Business Consulting"

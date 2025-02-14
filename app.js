@@ -37,7 +37,17 @@ if (document.readyState !== 'loading') {
     onReady();
     console.log('readystate');
 } else {
-    console.log('load');
+    console.log('WELCOME');
     window.addEventListener('load', onReady);
     document.addEventListener('DOMContentLoaded', onLoading);
-}
+    console.log(`
+        _   _                                       ____                            _      _              
+        /  /|                   ,                   /    )                          |  |  /               
+    ---/| /-|-----__----)__----------__------------/___ /-----__----__-----__-------|-/|-/------__-----__-
+      / |/  |   /   )  /   )  /    /   )          /    |    /   )  (\`  /___)      |/ |/     /___)  /   )
+    _/__/___|__(___(__/______/____(___(__________/_____|___(___/__(__)__(___ _______/__|_____(___ __/___/_
+
+   maria@ultravioletventure.studio   
+
+`);
+    }
