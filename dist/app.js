@@ -706,12 +706,12 @@ const textHover = ()=>{
             hoverElement.addEventListener("mouseenter", ()=>{
                 textHoverElements.forEach((textHoverElement)=>{
                     const chars = textHoverElement.querySelectorAll(".char");
-                    const originalChars = Array.from(chars).map((char)=>char.classList.contains("space") ? " " : char.textContent);
+                    const originalChars = Array.from(chars).map((char)=>char.classList.contains("space") ? "&nbsp;" : char.textContent);
                     // Instantly set opacity of ".text-hover" to 0
                     (0, _gsapDefault.default).set(textHoverElement, {
                         opacity: 0
                     });
-                    let cycles = 2; // Number of random letter cycles
+                    let cycles = 3; // Number of random letter cycles
                     const interval = setInterval(()=>{
                         chars.forEach((char, index)=>{
                             if (!char.classList.contains("space")) (0, _gsapDefault.default).to(char, {
