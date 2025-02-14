@@ -26,7 +26,7 @@ const textHover = () => {
           );
 
           // Instantly set opacity of ".text-hover" to 0
-          gsap.set(textHoverElement, { opacity: 0, duration: 0 });
+          gsap.set(textHoverElement, { opacity: 0 });
 
           let cycles = 2; // Number of random letter cycles
           const interval = setInterval(() => {
@@ -55,14 +55,18 @@ const textHover = () => {
                   });
                 }
               });
-              // Fade ".text-hover" back in after animation
-              gsap.to(textHoverElement, { opacity: 1, duration: 0 });
+              // Restore opacity to 1 after animation completes
+              gsap.set(textHoverElement, { opacity: 1 });
             }
           }, 80); // Slower interval
         });
       });
     });
   });
+
 };
+
+
+
 
 export default textHover;

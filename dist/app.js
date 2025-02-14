@@ -601,12 +601,17 @@ var _groupCMSItemJs = require("./webflow/functionality/groupCMSItem.js");
 var _groupCMSItemJsDefault = parcelHelpers.interopDefault(_groupCMSItemJs);
 var _blurbUnderlineJs = require("./webflow/functionality/blurbUnderline.js");
 var _blurbUnderlineJsDefault = parcelHelpers.interopDefault(_blurbUnderlineJs);
+var _pageTransitionJs = require("./webflow/functionality/pageTransition.js");
+var _pageTransitionJsDefault = parcelHelpers.interopDefault(_pageTransitionJs);
+var _preloaderJs = require("./webflow/animation/preloader.js");
+var _preloaderJsDefault = parcelHelpers.interopDefault(_preloaderJs);
 var _textHoverJs = require("./webflow/animation/textHover.js");
 var _textHoverJsDefault = parcelHelpers.interopDefault(_textHoverJs);
 const parceled = true;
 const onReady = ()=>{
     (0, _textHoverJsDefault.default)();
     (0, _blurbUnderlineJsDefault.default)();
+    (0, _pageTransitionJsDefault.default)();
     // Check if .filter-select exists before adding the event listener
     const filterSelect = document.querySelector(".filter-select");
     if (filterSelect) filterSelect.addEventListener("change", ()=>{
@@ -614,7 +619,10 @@ const onReady = ()=>{
     });
 };
 const onLoading = ()=>{
+    (0, _preloaderJsDefault.default)();
     (0, _groupCMSItemJsDefault.default)();
+    (0, _textHoverJsDefault.default)();
+    (0, _blurbUnderlineJsDefault.default)();
 };
 if (document.readyState !== 'loading') {
     onLoading();
@@ -626,7 +634,7 @@ if (document.readyState !== 'loading') {
     document.addEventListener('DOMContentLoaded', onLoading);
 }
 
-},{"./webflow/functionality/groupCMSItem.js":"imRly","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./webflow/animation/textHover.js":"5iCea","./webflow/functionality/blurbUnderline.js":"4xNh1"}],"imRly":[function(require,module,exports,__globalThis) {
+},{"./webflow/functionality/groupCMSItem.js":"imRly","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./webflow/animation/textHover.js":"5iCea","./webflow/functionality/blurbUnderline.js":"4xNh1","./webflow/functionality/pageTransition.js":"4nbYs","./webflow/animation/preloader.js":"e8Iwd"}],"imRly":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 const groupCMSItem = ()=>{
@@ -698,8 +706,7 @@ const textHover = ()=>{
                     const originalChars = Array.from(chars).map((char)=>char.classList.contains("space") ? " " : char.textContent);
                     // Instantly set opacity of ".text-hover" to 0
                     (0, _gsapDefault.default).set(textHoverElement, {
-                        opacity: 0,
-                        duration: 0
+                        opacity: 0
                     });
                     let cycles = 2; // Number of random letter cycles
                     const interval = setInterval(()=>{
@@ -722,10 +729,9 @@ const textHover = ()=>{
                                     delay: index * 0.05
                                 });
                             });
-                            // Fade ".text-hover" back in after animation
-                            (0, _gsapDefault.default).to(textHoverElement, {
-                                opacity: 1,
-                                duration: 0
+                            // Restore opacity to 1 after animation completes
+                            (0, _gsapDefault.default).set(textHoverElement, {
+                                opacity: 1
                             });
                         }
                     }, 80); // Slower interval
@@ -4842,6 +4848,57 @@ const blurbUnderline = ()=>{
 };
 exports.default = blurbUnderline;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["jQqog","igcvL"], "igcvL", "parcelRequire94c2")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4nbYs":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+const pageTransition = ()=>{
+    const links = document.querySelectorAll(".nav-link"); // Adjust selector based on your navigation
+    const body = document.body;
+    // Apply fade-in effect when the page loads
+    body.style.opacity = 0;
+    body.style.transition = "opacity 0.5s";
+    requestAnimationFrame(()=>{
+        body.style.opacity = 1;
+    });
+    links.forEach((link)=>{
+        link.addEventListener("click", function(event) {
+            event.preventDefault(); // Prevent instant navigation
+            const targetUrl = this.href;
+            body.style.opacity = 0;
+            setTimeout(()=>{
+                window.location.href = targetUrl;
+            }, 500); // Wait for fade-out before navigating
+        });
+    });
+};
+exports.default = pageTransition;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"e8Iwd":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _gsap = require("gsap");
+var _gsapDefault = parcelHelpers.interopDefault(_gsap);
+function hideLoader() {
+    // Trigger click to hide loader
+    document.querySelector("#load-trigger").click();
+}
+const loader = ()=>{
+    // Set initial display for #load-trigger to block
+    const trigger = document.querySelector("#load-trigger");
+    const loader = document.querySelector(".preloader");
+    const corn = document.querySelector(".corn");
+    loader.style.display = "flex";
+    let tl = (0, _gsapDefault.default).timeline();
+    tl.to(corn, {
+        transform: "rotateY(0deg)",
+        scale: 0.9,
+        duration: 0.8,
+        ease: "power2.out",
+        onComplete: hideLoader
+    });
+};
+exports.default = loader;
+
+},{"gsap":"fPSuC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["jQqog","igcvL"], "igcvL", "parcelRequire94c2")
 
 //# sourceMappingURL=app.js.map
