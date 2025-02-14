@@ -1,11 +1,13 @@
 const parceled = true;
 
 import groupCMSItem from './webflow/functionality/groupCMSItem.js';
+import blurbUnderline from './webflow/functionality/blurbUnderline.js';
+
 import textHover from './webflow/animation/textHover.js';
 
 const onReady = () => {
-    textHover();
-
+    textHover()
+    blurbUnderline()
     // Check if .filter-select exists before adding the event listener
     const filterSelect = document.querySelector(".filter-select");
     if (filterSelect) {
@@ -16,7 +18,7 @@ const onReady = () => {
 };
 
 const onLoading = () => {
-    groupCMSItem();
+    groupCMSItem()
 };
 
 if (document.readyState !== 'loading') {

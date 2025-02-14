@@ -15,7 +15,7 @@ const groupCMSItem = () => {
 
     groups.forEach(items => {
         if (items.length > 0) {
-            items[items.length - 1].style.marginBottom = "1.5rem";
+            items[items.length - 1].style.marginBottom = "1.25rem";
         }
     });
 

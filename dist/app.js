@@ -599,11 +599,14 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _groupCMSItemJs = require("./webflow/functionality/groupCMSItem.js");
 var _groupCMSItemJsDefault = parcelHelpers.interopDefault(_groupCMSItemJs);
+var _blurbUnderlineJs = require("./webflow/functionality/blurbUnderline.js");
+var _blurbUnderlineJsDefault = parcelHelpers.interopDefault(_blurbUnderlineJs);
 var _textHoverJs = require("./webflow/animation/textHover.js");
 var _textHoverJsDefault = parcelHelpers.interopDefault(_textHoverJs);
 const parceled = true;
 const onReady = ()=>{
     (0, _textHoverJsDefault.default)();
+    (0, _blurbUnderlineJsDefault.default)();
     // Check if .filter-select exists before adding the event listener
     const filterSelect = document.querySelector(".filter-select");
     if (filterSelect) filterSelect.addEventListener("change", ()=>{
@@ -623,7 +626,7 @@ if (document.readyState !== 'loading') {
     document.addEventListener('DOMContentLoaded', onLoading);
 }
 
-},{"./webflow/functionality/groupCMSItem.js":"imRly","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./webflow/animation/textHover.js":"5iCea"}],"imRly":[function(require,module,exports,__globalThis) {
+},{"./webflow/functionality/groupCMSItem.js":"imRly","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./webflow/animation/textHover.js":"5iCea","./webflow/functionality/blurbUnderline.js":"4xNh1"}],"imRly":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 const groupCMSItem = ()=>{
@@ -638,7 +641,7 @@ const groupCMSItem = ()=>{
         }
     });
     groups.forEach((items)=>{
-        if (items.length > 0) items[items.length - 1].style.marginBottom = "1.5rem";
+        if (items.length > 0) items[items.length - 1].style.marginBottom = "1.25rem";
     });
 };
 exports.default = groupCMSItem;
@@ -679,38 +682,54 @@ parcelHelpers.defineInteropFlag(exports);
 var _gsap = require("gsap");
 var _gsapDefault = parcelHelpers.interopDefault(_gsap);
 const textHover = ()=>{
+    // Break ".text-hover" into letters and preserve spaces
     document.querySelectorAll(".text-hover").forEach((element)=>{
         const text = element.textContent;
-        element.innerHTML = text.split("").map((char)=>`<span class="char">${char}</span>`).join("");
+        element.innerHTML = text.split("").map((char)=>char === " " ? '<span class="char space">&nbsp;</span>' : `<span class="char">${char}</span>`).join("");
     });
     (0, _gsapDefault.default).matchMedia().add("(min-width: 992px)", ()=>{
-        document.querySelectorAll(".text-hover").forEach((element)=>{
-            const chars = element.querySelectorAll(".char");
-            const originalChars = Array.from(chars).map((char)=>char.textContent);
-            element.addEventListener("mouseenter", ()=>{
-                let cycles = 2; // Increase cycles for a smoother effect
-                const interval = setInterval(()=>{
-                    chars.forEach((char, index)=>{
-                        (0, _gsapDefault.default).to(char, {
-                            duration: 0.8,
-                            textContent: "abcdefghijklmnopqrstuvwxyz".charAt(Math.floor(Math.random() * 26)),
-                            ease: "power1.in",
-                            delay: index * 0.05 // Increased stagger delay
-                        });
+        // Select elements with data-hover="random"
+        document.querySelectorAll('[data-hover="random"]').forEach((hoverElement)=>{
+            const textHoverElements = hoverElement.querySelectorAll(".text-hover");
+            if (!textHoverElements.length) return;
+            hoverElement.addEventListener("mouseenter", ()=>{
+                textHoverElements.forEach((textHoverElement)=>{
+                    const chars = textHoverElement.querySelectorAll(".char");
+                    const originalChars = Array.from(chars).map((char)=>char.classList.contains("space") ? " " : char.textContent);
+                    // Instantly set opacity of ".text-hover" to 0
+                    (0, _gsapDefault.default).set(textHoverElement, {
+                        opacity: 0,
+                        duration: 0
                     });
-                    cycles--;
-                    if (cycles <= 0) {
-                        clearInterval(interval); // Stop after 3 cycles
+                    let cycles = 2; // Number of random letter cycles
+                    const interval = setInterval(()=>{
                         chars.forEach((char, index)=>{
-                            (0, _gsapDefault.default).to(char, {
+                            if (!char.classList.contains("space")) (0, _gsapDefault.default).to(char, {
                                 duration: 0.8,
-                                textContent: originalChars[index],
-                                ease: "power2.in",
+                                textContent: "abcdefghijklmnopqrstuvwxyz".charAt(Math.floor(Math.random() * 26)),
+                                ease: "power1.in",
                                 delay: index * 0.05
                             });
                         });
-                    }
-                }, 80); // Slower interval
+                        cycles--;
+                        if (cycles <= 0) {
+                            clearInterval(interval); // Stop after cycles complete
+                            chars.forEach((char, index)=>{
+                                if (!char.classList.contains("space")) (0, _gsapDefault.default).to(char, {
+                                    duration: 0.8,
+                                    textContent: originalChars[index],
+                                    ease: "power2.in",
+                                    delay: index * 0.05
+                                });
+                            });
+                            // Fade ".text-hover" back in after animation
+                            (0, _gsapDefault.default).to(textHoverElement, {
+                                opacity: 1,
+                                duration: 0
+                            });
+                        }
+                    }, 80); // Slower interval
+                });
             });
         });
     });
@@ -4749,6 +4768,80 @@ var CSSPlugin = {
 });
 (0, _gsapCoreJs.gsap).registerPlugin(CSSPlugin);
 
-},{"./gsap-core.js":"05eeC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["jQqog","igcvL"], "igcvL", "parcelRequire94c2")
+},{"./gsap-core.js":"05eeC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4xNh1":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+const blurbUnderline = ()=>{
+    const blurbs = document.querySelectorAll('.project-blurb');
+    blurbs.forEach((blurb)=>{
+        const parentWrap = blurb.closest('.blurb-wrap');
+        if (!parentWrap) return;
+        // Preserve original content and styles
+        const originalContent = blurb.textContent;
+        const styles = window.getComputedStyle(blurb);
+        // Create a temporary container to measure line breaks
+        const tempDiv = document.createElement('div');
+        Object.assign(tempDiv.style, {
+            position: 'absolute',
+            visibility: 'hidden',
+            whiteSpace: 'pre-wrap',
+            width: `${parentWrap.offsetWidth}px`,
+            font: styles.font,
+            padding: styles.padding,
+            margin: styles.margin,
+            letterSpacing: styles.letterSpacing,
+            wordSpacing: styles.wordSpacing,
+            wordBreak: 'keep-all'
+        });
+        tempDiv.textContent = originalContent;
+        document.body.appendChild(tempDiv);
+        // Use Range to detect line breaks
+        const lines = [];
+        const textNode = tempDiv.firstChild;
+        const range = document.createRange();
+        let lineStart = 0;
+        let lineEnd = 0;
+        let lineTop = null;
+        while(lineEnd < textNode.length){
+            range.setStart(textNode, lineEnd);
+            range.setEnd(textNode, lineEnd + 1);
+            const rect = range.getBoundingClientRect();
+            // Detect a new line by checking the vertical position
+            if (lineTop !== null && rect.top > lineTop) {
+                range.setStart(textNode, lineStart);
+                range.setEnd(textNode, lineEnd);
+                lines.push(range.cloneContents().textContent);
+                lineStart = lineEnd;
+                lineTop = rect.top;
+            }
+            if (lineTop === null) lineTop = rect.top;
+            lineEnd++;
+        }
+        // Add the last line
+        if (lineStart < textNode.length) {
+            range.setStart(textNode, lineStart);
+            range.setEnd(textNode, textNode.length);
+            lines.push(range.cloneContents().textContent);
+        }
+        // Clean up the temporary container
+        document.body.removeChild(tempDiv);
+        // Rebuild the blurb content with lines wrapped in divs
+        blurb.innerHTML = '';
+        lines.forEach((lineText)=>{
+            const lineDiv = document.createElement('div');
+            Object.assign(lineDiv.style, {
+                borderBottom: '0.5px solid',
+                width: '100%',
+                whiteSpace: 'pre-wrap',
+                wordBreak: 'keep-all'
+            });
+            lineDiv.textContent = lineText;
+            blurb.appendChild(lineDiv);
+        });
+    });
+};
+exports.default = blurbUnderline;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["jQqog","igcvL"], "igcvL", "parcelRequire94c2")
 
 //# sourceMappingURL=app.js.map
