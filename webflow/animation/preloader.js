@@ -4,7 +4,7 @@ import TextRandomLoad from '../animation/textRandomLoad.js';
 function hideLoader() {
     // Trigger click to hide loader
     document.querySelector("#load-trigger").click();
-        TextRandomLoad();
+    TextRandomLoad();
 
 }
 
@@ -18,7 +18,7 @@ const loader = () => {
     let tl = gsap.timeline();
     tl.to(corn, {
         transform: "rotateY(0deg)",
-        scale:0.9,
+        scale: 0.9,
         duration: 0.8,
         ease: "power2.out",
         onComplete: hideLoader
