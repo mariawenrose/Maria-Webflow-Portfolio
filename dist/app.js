@@ -597,34 +597,33 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 
 },{}],"igcvL":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-var _groupCMSItemJs = require("./webflow/functionality/groupCMSItem.js");
-var _groupCMSItemJsDefault = parcelHelpers.interopDefault(_groupCMSItemJs);
+//import groupCMSItem from './webflow/functionality/groupCMSItem.js';
 var _blurbUnderlineJs = require("./webflow/functionality/blurbUnderline.js");
 var _blurbUnderlineJsDefault = parcelHelpers.interopDefault(_blurbUnderlineJs);
 var _pageTransitionJs = require("./webflow/functionality/pageTransition.js");
 var _pageTransitionJsDefault = parcelHelpers.interopDefault(_pageTransitionJs);
-var _disclaimerChangeJs = require("./webflow/functionality/disclaimerChange.js");
-var _disclaimerChangeJsDefault = parcelHelpers.interopDefault(_disclaimerChangeJs);
+//import disclaimerChange from './webflow/functionality/disclaimerChange.js';
 var _preloaderJs = require("./webflow/animation/preloader.js");
 var _preloaderJsDefault = parcelHelpers.interopDefault(_preloaderJs);
-var _textHoverJs = require("./webflow/animation/textHover.js");
-var _textHoverJsDefault = parcelHelpers.interopDefault(_textHoverJs);
 const parceled = true;
+//import textHover from './webflow/animation/textHover.js';
 const onReady = ()=>{
-    (0, _textHoverJsDefault.default)();
+    //textHover()
     (0, _blurbUnderlineJsDefault.default)();
     (0, _pageTransitionJsDefault.default)();
-    (0, _disclaimerChangeJsDefault.default)();
-    // Check if .filter-select exists before adding the event listener
-    const filterSelect = document.querySelector(".filter-select");
-    if (filterSelect) filterSelect.addEventListener("change", ()=>{
-        setTimeout((0, _groupCMSItemJsDefault.default), 50); // Delay ensures items are updated first
-    });
-};
+// disclaimerChange()
+// Check if .filter-select exists before adding the event listener
+/**const filterSelect = document.querySelector(".filter-select");
+    if (filterSelect) {
+        filterSelect.addEventListener("change", () => {
+            setTimeout(groupCMSItem, 50); // Delay ensures items are updated first
+
+        });
+    }**/ };
 const onLoading = ()=>{
     (0, _preloaderJsDefault.default)();
-    (0, _groupCMSItemJsDefault.default)();
-    (0, _textHoverJsDefault.default)();
+    //groupCMSItem()
+    //textHover()
     (0, _blurbUnderlineJsDefault.default)();
 };
 if (document.readyState !== 'loading') {
@@ -647,27 +646,7 @@ if (document.readyState !== 'loading') {
 `);
 }
 
-},{"./webflow/functionality/groupCMSItem.js":"imRly","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./webflow/animation/textHover.js":"5iCea","./webflow/functionality/blurbUnderline.js":"4xNh1","./webflow/functionality/pageTransition.js":"4nbYs","./webflow/animation/preloader.js":"e8Iwd","./webflow/functionality/disclaimerChange.js":"lfbeZ"}],"imRly":[function(require,module,exports,__globalThis) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-const groupCMSItem = ()=>{
-    //group the CMS portfolio items with the same industry value, add a bottom margin to the last one in each group - Maria special design layout request
-    const workItems = document.querySelectorAll(".work-item");
-    const groups = new Map();
-    workItems.forEach((item)=>{
-        const industry = item.querySelector("[data-industry]")?.dataset.industry;
-        if (industry) {
-            if (!groups.has(industry)) groups.set(industry, []);
-            groups.get(industry).push(item);
-        }
-    });
-    groups.forEach((items)=>{
-        if (items.length > 0) items[items.length - 1].style.marginBottom = "1.25rem";
-    });
-};
-exports.default = groupCMSItem;
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports,__globalThis) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./webflow/functionality/blurbUnderline.js":"4xNh1","./webflow/functionality/pageTransition.js":"4nbYs","./webflow/animation/preloader.js":"e8Iwd"}],"gkKU3":[function(require,module,exports,__globalThis) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -697,63 +676,132 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"5iCea":[function(require,module,exports,__globalThis) {
+},{}],"4xNh1":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+const blurbUnderline = ()=>{
+    const blurbs = document.querySelectorAll('.project-blurb');
+    blurbs.forEach((blurb)=>{
+        const parentWrap = blurb.closest('.blurb-wrap');
+        if (!parentWrap) return;
+        // Preserve original content and styles
+        const originalContent = blurb.textContent;
+        const styles = window.getComputedStyle(blurb);
+        // Create a temporary container to measure line breaks
+        const tempDiv = document.createElement('div');
+        Object.assign(tempDiv.style, {
+            position: 'absolute',
+            visibility: 'hidden',
+            whiteSpace: 'pre-wrap',
+            width: `${parentWrap.offsetWidth}px`,
+            font: styles.font,
+            padding: styles.padding,
+            margin: styles.margin,
+            letterSpacing: styles.letterSpacing,
+            wordSpacing: styles.wordSpacing,
+            wordBreak: 'keep-all'
+        });
+        tempDiv.textContent = originalContent;
+        document.body.appendChild(tempDiv);
+        // Use Range to detect line breaks
+        const lines = [];
+        const textNode = tempDiv.firstChild;
+        const range = document.createRange();
+        let lineStart = 0;
+        let lineEnd = 0;
+        let lineTop = null;
+        while(lineEnd < textNode.length){
+            range.setStart(textNode, lineEnd);
+            range.setEnd(textNode, lineEnd + 1);
+            const rect = range.getBoundingClientRect();
+            // Detect a new line by checking the vertical position
+            if (lineTop !== null && rect.top > lineTop) {
+                range.setStart(textNode, lineStart);
+                range.setEnd(textNode, lineEnd);
+                lines.push(range.cloneContents().textContent);
+                lineStart = lineEnd;
+                lineTop = rect.top;
+            }
+            if (lineTop === null) lineTop = rect.top;
+            lineEnd++;
+        }
+        // Add the last line
+        if (lineStart < textNode.length) {
+            range.setStart(textNode, lineStart);
+            range.setEnd(textNode, textNode.length);
+            lines.push(range.cloneContents().textContent);
+        }
+        // Clean up the temporary container
+        document.body.removeChild(tempDiv);
+        // Rebuild the blurb content with lines wrapped in divs
+        blurb.innerHTML = '';
+        lines.forEach((lineText)=>{
+            const lineDiv = document.createElement('div');
+            Object.assign(lineDiv.style, {
+                borderBottom: '0.5px solid',
+                width: '100%',
+                whiteSpace: 'pre-wrap',
+                wordBreak: 'keep-all'
+            });
+            lineDiv.textContent = lineText;
+            blurb.appendChild(lineDiv);
+        });
+    });
+};
+exports.default = blurbUnderline;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4nbYs":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+const pageTransition = ()=>{
+    const links = document.querySelectorAll(".nav-link"); // Adjust selector based on your navigation
+    const body = document.body;
+    // Apply fade-in effect when the page loads
+    body.style.opacity = 0;
+    body.style.transition = "opacity 0.5s";
+    requestAnimationFrame(()=>{
+        body.style.opacity = 1;
+    });
+    links.forEach((link)=>{
+        link.addEventListener("click", function(event) {
+            event.preventDefault(); // Prevent instant navigation
+            const targetUrl = this.href;
+            body.style.opacity = 0;
+            setTimeout(()=>{
+                window.location.href = targetUrl;
+            }, 500); // Wait for fade-out before navigating
+        });
+    });
+};
+exports.default = pageTransition;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"e8Iwd":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _gsap = require("gsap");
 var _gsapDefault = parcelHelpers.interopDefault(_gsap);
-const textHover = ()=>{
-    // Break ".text-hover" into letters and preserve spaces
-    document.querySelectorAll(".text-hover").forEach((element)=>{
-        const text = element.textContent;
-        element.innerHTML = text.split("").map((char)=>char === " " ? '<span class="char space">&nbsp;</span>' : `<span class="char">${char}</span>`).join("");
-    });
-    (0, _gsapDefault.default).matchMedia().add("(min-width: 992px)", ()=>{
-        // Select elements with data-hover="random"
-        document.querySelectorAll('[data-hover="random"]').forEach((hoverElement)=>{
-            const textHoverElements = hoverElement.querySelectorAll(".text-hover");
-            if (!textHoverElements.length) return;
-            hoverElement.addEventListener("mouseenter", ()=>{
-                textHoverElements.forEach((textHoverElement)=>{
-                    const chars = textHoverElement.querySelectorAll(".char");
-                    const originalChars = Array.from(chars).map((char)=>char.classList.contains("space") ? "&nbsp;" : char.textContent);
-                    // Instantly set opacity of ".text-hover" to 0
-                    (0, _gsapDefault.default).set(textHoverElement, {
-                        opacity: 0
-                    });
-                    let cycles = 3; // Number of random letter cycles
-                    const interval = setInterval(()=>{
-                        chars.forEach((char, index)=>{
-                            if (!char.classList.contains("space")) (0, _gsapDefault.default).to(char, {
-                                duration: 0.8,
-                                textContent: "abcdefghijklmnopqrstuvwxyz".charAt(Math.floor(Math.random() * 26)),
-                                ease: "power1.in",
-                                delay: index * 0.05
-                            });
-                        });
-                        cycles--;
-                        if (cycles <= 0) {
-                            clearInterval(interval); // Stop after cycles complete
-                            chars.forEach((char, index)=>{
-                                if (!char.classList.contains("space")) (0, _gsapDefault.default).to(char, {
-                                    duration: 0.8,
-                                    textContent: originalChars[index],
-                                    ease: "power2.in",
-                                    delay: index * 0.05
-                                });
-                            });
-                            // Restore opacity to 1 after animation completes
-                            (0, _gsapDefault.default).set(textHoverElement, {
-                                opacity: 1
-                            });
-                        }
-                    }, 80); // Slower interval
-                });
-            });
-        });
+//import TextRandomLoad from './webflow/animation/textRandomLoad.js';
+function hideLoader() {
+    // Trigger click to hide loader
+    TextRandomLoad();
+    document.querySelector("#load-trigger").click();
+}
+const loader = ()=>{
+    // Set initial display for #load-trigger to block
+    const trigger = document.querySelector("#load-trigger");
+    const loader = document.querySelector(".preloader");
+    const corn = document.querySelector(".corn");
+    loader.style.display = "flex";
+    let tl = (0, _gsapDefault.default).timeline();
+    tl.to(corn, {
+        transform: "rotateY(0deg)",
+        scale: 0.9,
+        duration: 0.8,
+        ease: "power2.out",
+        onComplete: hideLoader
     });
 };
-exports.default = textHover;
+exports.default = loader;
 
 },{"gsap":"fPSuC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fPSuC":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -4787,151 +4835,6 @@ var CSSPlugin = {
 });
 (0, _gsapCoreJs.gsap).registerPlugin(CSSPlugin);
 
-},{"./gsap-core.js":"05eeC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4xNh1":[function(require,module,exports,__globalThis) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-const blurbUnderline = ()=>{
-    const blurbs = document.querySelectorAll('.project-blurb');
-    blurbs.forEach((blurb)=>{
-        const parentWrap = blurb.closest('.blurb-wrap');
-        if (!parentWrap) return;
-        // Preserve original content and styles
-        const originalContent = blurb.textContent;
-        const styles = window.getComputedStyle(blurb);
-        // Create a temporary container to measure line breaks
-        const tempDiv = document.createElement('div');
-        Object.assign(tempDiv.style, {
-            position: 'absolute',
-            visibility: 'hidden',
-            whiteSpace: 'pre-wrap',
-            width: `${parentWrap.offsetWidth}px`,
-            font: styles.font,
-            padding: styles.padding,
-            margin: styles.margin,
-            letterSpacing: styles.letterSpacing,
-            wordSpacing: styles.wordSpacing,
-            wordBreak: 'keep-all'
-        });
-        tempDiv.textContent = originalContent;
-        document.body.appendChild(tempDiv);
-        // Use Range to detect line breaks
-        const lines = [];
-        const textNode = tempDiv.firstChild;
-        const range = document.createRange();
-        let lineStart = 0;
-        let lineEnd = 0;
-        let lineTop = null;
-        while(lineEnd < textNode.length){
-            range.setStart(textNode, lineEnd);
-            range.setEnd(textNode, lineEnd + 1);
-            const rect = range.getBoundingClientRect();
-            // Detect a new line by checking the vertical position
-            if (lineTop !== null && rect.top > lineTop) {
-                range.setStart(textNode, lineStart);
-                range.setEnd(textNode, lineEnd);
-                lines.push(range.cloneContents().textContent);
-                lineStart = lineEnd;
-                lineTop = rect.top;
-            }
-            if (lineTop === null) lineTop = rect.top;
-            lineEnd++;
-        }
-        // Add the last line
-        if (lineStart < textNode.length) {
-            range.setStart(textNode, lineStart);
-            range.setEnd(textNode, textNode.length);
-            lines.push(range.cloneContents().textContent);
-        }
-        // Clean up the temporary container
-        document.body.removeChild(tempDiv);
-        // Rebuild the blurb content with lines wrapped in divs
-        blurb.innerHTML = '';
-        lines.forEach((lineText)=>{
-            const lineDiv = document.createElement('div');
-            Object.assign(lineDiv.style, {
-                borderBottom: '0.5px solid',
-                width: '100%',
-                whiteSpace: 'pre-wrap',
-                wordBreak: 'keep-all'
-            });
-            lineDiv.textContent = lineText;
-            blurb.appendChild(lineDiv);
-        });
-    });
-};
-exports.default = blurbUnderline;
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4nbYs":[function(require,module,exports,__globalThis) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-const pageTransition = ()=>{
-    const links = document.querySelectorAll(".nav-link"); // Adjust selector based on your navigation
-    const body = document.body;
-    // Apply fade-in effect when the page loads
-    body.style.opacity = 0;
-    body.style.transition = "opacity 0.5s";
-    requestAnimationFrame(()=>{
-        body.style.opacity = 1;
-    });
-    links.forEach((link)=>{
-        link.addEventListener("click", function(event) {
-            event.preventDefault(); // Prevent instant navigation
-            const targetUrl = this.href;
-            body.style.opacity = 0;
-            setTimeout(()=>{
-                window.location.href = targetUrl;
-            }, 500); // Wait for fade-out before navigating
-        });
-    });
-};
-exports.default = pageTransition;
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"e8Iwd":[function(require,module,exports,__globalThis) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _gsap = require("gsap");
-var _gsapDefault = parcelHelpers.interopDefault(_gsap);
-function hideLoader() {
-    // Trigger click to hide loader
-    document.querySelector("#load-trigger").click();
-}
-const loader = ()=>{
-    // Set initial display for #load-trigger to block
-    const trigger = document.querySelector("#load-trigger");
-    const loader = document.querySelector(".preloader");
-    const corn = document.querySelector(".corn");
-    loader.style.display = "flex";
-    let tl = (0, _gsapDefault.default).timeline();
-    tl.to(corn, {
-        transform: "rotateY(0deg)",
-        scale: 0.9,
-        duration: 0.8,
-        ease: "power2.out",
-        onComplete: hideLoader
-    });
-};
-exports.default = loader;
-
-},{"gsap":"fPSuC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lfbeZ":[function(require,module,exports,__globalThis) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-const disclaimerChange = ()=>{
-    // Get references to the select element and the disclaimer text
-    const filterSelect = document.querySelector('.filter-select');
-    const disclaimer = document.querySelector('.dislaimer-text-wrap');
-    // If either element is not found, do nothing and exit silently
-    if (!filterSelect || !disclaimer) return;
-    // Add an event listener to the select element
-    filterSelect.addEventListener('change', function() {
-        // Check if the selected option's value is "Business Consulting"
-        if (this.value === 'Business Consulting') // Change the opacity of the disclaimer to 0
-        disclaimer.style.opacity = '0';
-        else // Change the opacity of the disclaimer back to 1
-        disclaimer.style.opacity = '1';
-    });
-};
-exports.default = disclaimerChange;
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["jQqog","igcvL"], "igcvL", "parcelRequire94c2")
+},{"./gsap-core.js":"05eeC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["jQqog","igcvL"], "igcvL", "parcelRequire94c2")
 
 //# sourceMappingURL=app.js.map

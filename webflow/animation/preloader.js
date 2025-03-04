@@ -1,7 +1,9 @@
 import gsap from "gsap";
+//import TextRandomLoad from './webflow/animation/textRandomLoad.js';
 
 function hideLoader() {
     // Trigger click to hide loader
+    TextRandomLoad();
     document.querySelector("#load-trigger").click();
 }
 
