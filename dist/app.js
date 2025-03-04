@@ -780,11 +780,12 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _gsap = require("gsap");
 var _gsapDefault = parcelHelpers.interopDefault(_gsap);
-//import TextRandomLoad from './webflow/animation/textRandomLoad.js';
+var _textRandomLoadJs = require("../animation/textRandomLoad.js");
+var _textRandomLoadJsDefault = parcelHelpers.interopDefault(_textRandomLoadJs);
 function hideLoader() {
     // Trigger click to hide loader
-    TextRandomLoad();
     document.querySelector("#load-trigger").click();
+    (0, _textRandomLoadJsDefault.default)();
 }
 const loader = ()=>{
     // Set initial display for #load-trigger to block
@@ -803,7 +804,7 @@ const loader = ()=>{
 };
 exports.default = loader;
 
-},{"gsap":"fPSuC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fPSuC":[function(require,module,exports,__globalThis) {
+},{"gsap":"fPSuC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../animation/textRandomLoad.js":"fEOxK"}],"fPSuC":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "gsap", ()=>gsapWithCSS);
@@ -4835,6 +4836,104 @@ var CSSPlugin = {
 });
 (0, _gsapCoreJs.gsap).registerPlugin(CSSPlugin);
 
-},{"./gsap-core.js":"05eeC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["jQqog","igcvL"], "igcvL", "parcelRequire94c2")
+},{"./gsap-core.js":"05eeC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fEOxK":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _gsap = require("gsap");
+var _gsapDefault = parcelHelpers.interopDefault(_gsap);
+const TextRandomLoad = ()=>{
+    const lettersAndSymbols = 'abcdefghijklmnopqrstuvwxyz!@#$%^&*-_+=;:<>?,'.split('');
+    const textElements = document.querySelectorAll(".text-hover");
+    if (!textElements.length) throw new Error("No elements with the class 'text-hover' found.");
+    textElements.forEach((textElement)=>{
+        // Split text into individual spans with background elements
+        const splitText = ()=>{
+            const text = textElement.textContent.trim();
+            textElement.innerHTML = '';
+            return [
+                ...text
+            ].map((char)=>{
+                const span = document.createElement('span');
+                span.className = 'char';
+                // Add background element
+                const bg = document.createElement('div');
+                bg.className = 'char-bg';
+                span.appendChild(bg);
+                // Text character
+                const textNode = document.createElement('div');
+                textNode.className = 'char-text';
+                textNode.textContent = char;
+                textNode.dataset.original = char;
+                span.appendChild(textNode);
+                if (char === ' ') span.style.marginRight = '0.3em';
+                textElement.appendChild(span);
+                return {
+                    span,
+                    bg,
+                    textNode
+                };
+            });
+        };
+        const chars = splitText();
+        const animate = ()=>{
+            reset();
+            chars.forEach(({ bg, textNode }, index)=>{
+                if (textNode.textContent === ' ') return;
+                // Create timeline for synchronized animations
+                const tl = (0, _gsapDefault.default).timeline();
+                // Animate background
+                tl.to(bg, {
+                    scaleX: 1,
+                    duration: 0.3,
+                    ease: "power2.inOut",
+                    delay: index * 0.07
+                });
+                // Add text scramble animation
+                tl.to(textNode, {
+                    opacity: 1,
+                    duration: 0.03,
+                    repeat: 3,
+                    repeatRefresh: true,
+                    repeatDelay: 0.04,
+                    onStart: ()=>(0, _gsapDefault.default).set(textNode, {
+                            '--opa': 1
+                        }),
+                    onRepeat: ()=>{
+                        textNode.textContent = lettersAndSymbols[Math.floor(Math.random() * lettersAndSymbols.length)];
+                        if ((0, _gsapDefault.default).getProperty(textNode, '--opa') === 1) (0, _gsapDefault.default).set(textNode, {
+                            '--opa': 0
+                        });
+                    },
+                    onComplete: ()=>(0, _gsapDefault.default).set(textNode, {
+                            textContent: textNode.dataset.original
+                        })
+                }, "<");
+                // Animate background out
+                tl.to(bg, {
+                    scaleX: 0,
+                    duration: 0.3,
+                    ease: "power2.inOut",
+                    transformOrigin: "right"
+                });
+            });
+        };
+        const reset = ()=>{
+            chars.forEach(({ bg, textNode })=>{
+                (0, _gsapDefault.default).killTweensOf([
+                    bg,
+                    textNode
+                ]);
+                (0, _gsapDefault.default).set(bg, {
+                    scaleX: 0
+                });
+                textNode.textContent = textNode.dataset.original;
+            });
+        };
+        animate();
+    });
+};
+exports.default = TextRandomLoad;
+
+},{"gsap":"fPSuC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["jQqog","igcvL"], "igcvL", "parcelRequire94c2")
 
 //# sourceMappingURL=app.js.map
