@@ -7,12 +7,12 @@ import pageTransition from './webflow/functionality/pageTransition.js';
 
 
 import loader from './webflow/animation/preloader.js';
-//import textHover from './webflow/animation/textHover.js';
+import {TextRandomHover} from './webflow/animation/textRandomLoad.js';
 
 
 
 const onReady = () => {
-    //textHover()
+   TextRandomHover()
     blurbUnderline()
     pageTransition()
    // disclaimerChange()
@@ -29,7 +29,6 @@ const onReady = () => {
 const onLoading = () => {
     loader()
     //groupCMSItem()
-    //textHover()
     blurbUnderline()
 
 };

@@ -605,10 +605,10 @@ var _pageTransitionJsDefault = parcelHelpers.interopDefault(_pageTransitionJs);
 //import disclaimerChange from './webflow/functionality/disclaimerChange.js';
 var _preloaderJs = require("./webflow/animation/preloader.js");
 var _preloaderJsDefault = parcelHelpers.interopDefault(_preloaderJs);
+var _textRandomLoadJs = require("./webflow/animation/textRandomLoad.js");
 const parceled = true;
-//import textHover from './webflow/animation/textHover.js';
 const onReady = ()=>{
-    //textHover()
+    (0, _textRandomLoadJs.TextRandomHover)();
     (0, _blurbUnderlineJsDefault.default)();
     (0, _pageTransitionJsDefault.default)();
 // disclaimerChange()
@@ -623,7 +623,6 @@ const onReady = ()=>{
 const onLoading = ()=>{
     (0, _preloaderJsDefault.default)();
     //groupCMSItem()
-    //textHover()
     (0, _blurbUnderlineJsDefault.default)();
 };
 if (document.readyState !== 'loading') {
@@ -646,7 +645,7 @@ if (document.readyState !== 'loading') {
 `);
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./webflow/functionality/blurbUnderline.js":"4xNh1","./webflow/functionality/pageTransition.js":"4nbYs","./webflow/animation/preloader.js":"e8Iwd"}],"gkKU3":[function(require,module,exports,__globalThis) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./webflow/functionality/blurbUnderline.js":"4xNh1","./webflow/functionality/pageTransition.js":"4nbYs","./webflow/animation/preloader.js":"e8Iwd","./webflow/animation/textRandomLoad.js":"fEOxK"}],"gkKU3":[function(require,module,exports,__globalThis) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -780,12 +779,11 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _gsap = require("gsap");
 var _gsapDefault = parcelHelpers.interopDefault(_gsap);
-var _textRandomLoadJs = require("../animation/textRandomLoad.js");
-var _textRandomLoadJsDefault = parcelHelpers.interopDefault(_textRandomLoadJs);
+var _textRandomLoadJs = require("./textRandomLoad.js");
 function hideLoader() {
     // Trigger click to hide loader
     document.querySelector("#load-trigger").click();
-    (0, _textRandomLoadJsDefault.default)();
+    (0, _textRandomLoadJs.TextRandomLoad)();
 }
 const loader = ()=>{
     // Set initial display for #load-trigger to block
@@ -804,7 +802,7 @@ const loader = ()=>{
 };
 exports.default = loader;
 
-},{"gsap":"fPSuC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../animation/textRandomLoad.js":"fEOxK"}],"fPSuC":[function(require,module,exports,__globalThis) {
+},{"gsap":"fPSuC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./textRandomLoad.js":"fEOxK"}],"fPSuC":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "gsap", ()=>gsapWithCSS);
@@ -4839,6 +4837,8 @@ var CSSPlugin = {
 },{"./gsap-core.js":"05eeC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fEOxK":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "TextRandomLoad", ()=>TextRandomLoad);
+parcelHelpers.export(exports, "TextRandomHover", ()=>TextRandomHover);
 var _gsap = require("gsap");
 var _gsapDefault = parcelHelpers.interopDefault(_gsap);
 const lettersAndSymbols = [
@@ -4886,12 +4886,17 @@ const lettersAndSymbols = [
     ">",
     ","
 ];
-const TextRandomLoad = ()=>{
+/**
+ * Initializes text by wrapping each character in a span and animating them.
+ * This function runs on page load to set up and animate the text.
+ */ const TextRandomLoad = ()=>{
     document.querySelectorAll(".text-hover").forEach((textElement)=>{
         if (!textElement || !(textElement instanceof HTMLElement)) return;
-        const originalText = textElement.innerHTML;
+        const originalText = textElement.innerText;
+        textElement.dataset.original = originalText; // Store original text
         const chars = originalText.split("").map((char)=>char === " " ? `<span>&nbsp;</span>` : `<span>${char}</span>`);
         textElement.innerHTML = chars.join("");
+        // Animate text immediately after wrapping characters in spans
         const charElements = textElement.querySelectorAll("span");
         charElements.forEach((char, index)=>{
             if (char.innerHTML === "&nbsp;") return; // Skip animating spaces
@@ -4923,7 +4928,48 @@ const TextRandomLoad = ()=>{
         });
     });
 };
-exports.default = TextRandomLoad;
+/**
+ * Triggers the random letter animation when hovering over .hover-effect.
+ */ const TextRandomHover = ()=>{
+    const animateText = (textElement)=>{
+        if (!textElement || !(textElement instanceof HTMLElement)) return;
+        const originalText = textElement.dataset.original;
+        const charElements = textElement.querySelectorAll("span");
+        charElements.forEach((char, index)=>{
+            if (char.innerHTML === "&nbsp;") return; // Skip animating spaces
+            let repeatCount = 0;
+            (0, _gsapDefault.default).fromTo(char, {
+                opacity: 0
+            }, {
+                duration: 0.03,
+                onStart: ()=>(0, _gsapDefault.default).set(char, {
+                        "--opa": 1
+                    }),
+                onComplete: ()=>(0, _gsapDefault.default).set(char, {
+                        innerHTML: originalText[index],
+                        delay: 0.03
+                    }),
+                repeat: 3,
+                onRepeat: ()=>{
+                    repeatCount++;
+                    if (repeatCount === 1) (0, _gsapDefault.default).set(char, {
+                        "--opa": 0
+                    });
+                },
+                repeatRefresh: true,
+                repeatDelay: 0.04,
+                delay: (index + 1) * 0.07,
+                innerHTML: ()=>lettersAndSymbols[Math.floor(Math.random() * lettersAndSymbols.length)],
+                opacity: 1
+            });
+        });
+    };
+    document.querySelectorAll(".hover-effect").forEach((hoverElement)=>{
+        hoverElement.addEventListener("mouseenter", ()=>{
+            hoverElement.querySelectorAll(".text-hover").forEach(animateText);
+        });
+    });
+};
 
 },{"gsap":"fPSuC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["jQqog","igcvL"], "igcvL", "parcelRequire94c2")
 

@@ -1,5 +1,5 @@
 import gsap from "gsap";
-import TextRandomLoad from '../animation/textRandomLoad.js';
+import {TextRandomLoad} from './textRandomLoad.js';
 
 function hideLoader() {
     // Trigger click to hide loader
