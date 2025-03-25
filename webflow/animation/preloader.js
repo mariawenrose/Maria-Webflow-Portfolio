@@ -1,11 +1,25 @@
 import gsap from "gsap";
-import {TextRandomLoad} from './textRandomLoad.js';
 
+const cmsItemIn = () => {
+    const items = document.querySelectorAll(".work-item");
+
+    gsap.fromTo(
+      items,
+      { opacity: 0, x: "-2rem" },
+      {
+        opacity: 1,
+        x: "0rem",
+        duration: 0.5,
+        stagger: 0.05,
+        ease: "power3.out"
+      }
+    );
+
+}
 function hideLoader() {
     // Trigger click to hide loader
     document.querySelector("#load-trigger").click();
-    TextRandomLoad();
-
+    cmsItemIn();
 }
 
 const loader = () => {

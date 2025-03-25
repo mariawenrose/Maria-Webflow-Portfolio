@@ -7,15 +7,14 @@ import pageTransition from './webflow/functionality/pageTransition.js';
 
 
 import loader from './webflow/animation/preloader.js';
-import {TextRandomHover} from './webflow/animation/textRandomLoad.js';
-
+import hoverEffect  from './webflow/animation/hoverEffect.js';
 
 
 const onReady = () => {
-   TextRandomHover()
+    hoverEffect()
     blurbUnderline()
     pageTransition()
-   // disclaimerChange()
+    // disclaimerChange()
     // Check if .filter-select exists before adding the event listener
     /**const filterSelect = document.querySelector(".filter-select");
     if (filterSelect) {
@@ -51,4 +50,4 @@ if (document.readyState !== 'loading') {
    maria@ultravioletventure.studio   
 
 `);
-    }
+}
