@@ -51,6 +51,7 @@ const animateText = (textElement) => {
 };
 
 const hoverEffect = () => {
+    
   document.querySelectorAll(".hover-effect").forEach((hoverElement) => {
     hoverElement.querySelectorAll(".text-hover").forEach(wrapTextWithSpans);
 

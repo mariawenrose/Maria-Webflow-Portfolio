@@ -27,6 +27,8 @@ const onReady = () => {
 
 const onLoading = () => {
     loader()
+    hoverEffect()
+
     //groupCMSItem()
     blurbUnderline()
 

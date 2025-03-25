@@ -623,6 +623,7 @@ const onReady = ()=>{
     }**/ };
 const onLoading = ()=>{
     (0, _preloaderJsDefault.default)();
+    (0, _hoverEffectJsDefault.default)();
     //groupCMSItem()
     (0, _blurbUnderlineJsDefault.default)();
 };
